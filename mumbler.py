@@ -1,26 +1,20 @@
-import zipfile
 import cPickle as pickle
 import numpy as np
-from array import *
 import sys
-
+import paramiko
 def get_all_ngrams(word):
     ngrams = {}
-    for file_index in range(0,2):
-        #Going through all the pickle files and collecting the data for given word
-        if(file_index % 25==0):
-            print 'Looking through file: ',file_index,' for word: ',word
-        with open('google-'+str(file_index)+'.zip'+'.pickle','rb') as pickle_file:
-            unpickled = pickle.load(pickle_file)
-            #Finding Second level n grams
-            temp_dict=unpickled.get(word)
-            if(temp_dict is not None):
-                #Collecting Counts
-                for key in temp_dict:
-                    if(key in ngrams):
-                        ngrams[key] = int(ngrams[key]) + int(temp_dict[key])
-                    else:
-                        ngrams[key]=int(temp_dict[key])
+    with open('/gpfs/gpfsfpo/gpfs1/'+word[0].lower()+'.txt.pickle','rb') as pickle_file:
+        unpickled = pickle.load(pickle_file)
+        #Finding Second level n grams
+        temp_dict=unpickled.get(word)
+        if(temp_dict is not None):
+            #Collecting Counts
+            for key in temp_dict:
+                if(key in ngrams):
+                    ngrams[key] = int(ngrams[key]) + int(temp_dict[key])
+                else:
+                    ngrams[key]=int(temp_dict[key])
     if (len(ngrams)==0):
         return None
     else:
@@ -39,21 +33,13 @@ def get_probabilities_for_word(ng):
         probability_dict[key] = float(ng[key]/sum)
     return probability_dict.keys(),probability_dict.values()
 
-
-def mumble(word, limit):
-    
-    #Base case when limit runs out
-    print 'Looking up: ',word
-    if(limit-1 ==0):
-        print 'Exhausted max limit'
-        return
-    
+def mumble(word):
+     
     ng = get_all_ngrams(word)
     
     #Base Case when no more ngrams are available
     if(ng is None):
-        print 'No more words found'
-        return
+        return None
     
     #Getting probabilities
     prob_words,prob = get_probabilities_for_word(ng)
@@ -61,8 +47,48 @@ def mumble(word, limit):
     #Randon selection of next word based on calculated probabilities
     next_word = np.random.choice(prob_words,1,prob)
     
-    #Mumling for next word
-    return mumble(next_word[0],limit-1)
+    #Returning Next Word
+    #print next_word[0]
+    return next_word[0]
 
+def mumbler(word, max_count):
+   
+    #Base case when limit runs out
+    if(max_count-1 ==0):
+        print 'Exhausted max limit'
+        return word
+    
+    #Base Case when no more ngrams are available
+    if(word is None or len(word)==0):
+        print "Out of Words"
+        return 
+    word = word.rstrip('\n')
+    print word
+    #Setup
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    stdin, stdout,stderr = None, None, None
+    
+    # Looking up the next word in the appropriate place
+    if((word[0]>='a' and word[0]<='i') or (word[0]>='A' and word[0]<='I') ):
+        #run mumble on local node with max count = 1
+        word = mumble(word)
+    
+    
+    elif((word[0]>='j' and word[0]<='r') or (word[0]>='J' and word[0]<='R') ):
+        #Run Mumble on GPFS2 with max count 1
+        ssh.connect('198.11.202.189',username='root',password='AZU2H6xz')
+        stdin,stdout,stderr = ssh.exec_command('source activate pyt2.7 \n python /gpfs/gpfsfpo/gpfs2/mumble.py ' + word)
+        word = stdout.readline()
+        #print stderr.readlines()
+    
+    elif((word[0]>='s' and word[0]<='z') or (word[0]>='S' and word[0]<='Z') ):
+        #Run Mumble on GPFS 3 with max count 1
+        ssh.connect('198.11.202.190',username='root',password='An2Nvz6s')
+        stdin,stdout,stderr = ssh.exec_command('source activate pyt2.7 \n python /gpfs/gpfsfpo/gpfs3/mumble.py ' + word)
+        word = stdout.readline()
+        #print stderr.readlines()
+    
+    mumbler(word,max_count-1)
 
-mumble(str(sys.argv[1]),int(sys.argv[2]))
+mumbler(sys.argv[1],int(sys.argv[2]))
