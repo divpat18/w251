@@ -1,0 +1,119 @@
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+16/06/17 16:54:13 INFO SparkContext: Running Spark version 1.6.1
+16/06/17 16:54:13 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+16/06/17 16:54:14 INFO SecurityManager: Changing view acls to: root
+16/06/17 16:54:14 INFO SecurityManager: Changing modify acls to: root
+16/06/17 16:54:14 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(root); users with modify permissions: Set(root)
+16/06/17 16:54:14 INFO Utils: Successfully started service 'sparkDriver' on port 38701.
+16/06/17 16:54:15 INFO Slf4jLogger: Slf4jLogger started
+16/06/17 16:54:15 INFO Remoting: Starting remoting
+16/06/17 16:54:15 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 52147.
+16/06/17 16:54:15 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@50.97.233.108:52147]
+16/06/17 16:54:15 INFO SparkEnv: Registering MapOutputTracker
+16/06/17 16:54:15 INFO SparkEnv: Registering BlockManagerMaster
+16/06/17 16:54:15 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-e8344d47-e4d5-4e00-9a98-f06507ce524e
+16/06/17 16:54:15 INFO MemoryStore: MemoryStore started with capacity 511.1 MB
+16/06/17 16:54:15 INFO SparkEnv: Registering OutputCommitCoordinator
+16/06/17 16:54:15 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+16/06/17 16:54:15 INFO SparkUI: Started SparkUI at http://50.97.233.108:4040
+16/06/17 16:54:15 INFO HttpFileServer: HTTP File server directory is /tmp/spark-4ad985ca-8c26-4d0e-8761-1f202698f4f7/httpd-685e32e5-b9ad-40b6-89e6-4d1d282a726b
+16/06/17 16:54:15 INFO HttpServer: Starting HTTP Server
+16/06/17 16:54:15 INFO Utils: Successfully started service 'HTTP file server' on port 49059.
+16/06/17 16:54:15 INFO SparkContext: Added JAR file:/usr/local/spark/target/scala-2.10/simple-project_2.10-1.0.jar at http://50.97.233.108:49059/jars/simple-project_2.10-1.0.jar with timestamp 1466200455731
+16/06/17 16:54:15 INFO AppClient$ClientEndpoint: Connecting to master spark://spark1:7077...
+16/06/17 16:54:16 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20160617165416-0000
+16/06/17 16:54:16 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 46767.
+16/06/17 16:54:16 INFO NettyBlockTransferService: Server created on 46767
+16/06/17 16:54:16 INFO BlockManagerMaster: Trying to register BlockManager
+16/06/17 16:54:16 INFO BlockManagerMasterEndpoint: Registering block manager 50.97.233.108:46767 with 511.1 MB RAM, BlockManagerId(driver, 50.97.233.108, 46767)
+16/06/17 16:54:16 INFO AppClient$ClientEndpoint: Executor added: app-20160617165416-0000/0 on worker-20160617162036-50.97.233.108-33499 (50.97.233.108:33499) with 2 cores
+16/06/17 16:54:16 INFO SparkDeploySchedulerBackend: Granted executor ID app-20160617165416-0000/0 on hostPort 50.97.233.108:33499 with 2 cores, 1024.0 MB RAM
+16/06/17 16:54:16 INFO BlockManagerMaster: Registered BlockManager
+16/06/17 16:54:16 INFO AppClient$ClientEndpoint: Executor updated: app-20160617165416-0000/0 is now RUNNING
+16/06/17 16:54:16 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+16/06/17 16:54:17 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 127.4 KB, free 127.4 KB)
+16/06/17 16:54:17 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 13.9 KB, free 141.3 KB)
+16/06/17 16:54:17 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 50.97.233.108:46767 (size: 13.9 KB, free: 511.1 MB)
+16/06/17 16:54:17 INFO SparkContext: Created broadcast 0 from textFile at SimpleApp.scala:11
+16/06/17 16:54:18 INFO FileInputFormat: Total input paths to process : 1
+16/06/17 16:54:18 INFO SparkContext: Starting job: count at SimpleApp.scala:12
+16/06/17 16:54:18 INFO DAGScheduler: Got job 0 (count at SimpleApp.scala:12) with 2 output partitions
+16/06/17 16:54:18 INFO DAGScheduler: Final stage: ResultStage 0 (count at SimpleApp.scala:12)
+16/06/17 16:54:18 INFO DAGScheduler: Parents of final stage: List()
+16/06/17 16:54:18 INFO DAGScheduler: Missing parents: List()
+16/06/17 16:54:18 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[2] at filter at SimpleApp.scala:12), which has no missing parents
+16/06/17 16:54:18 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 3.1 KB, free 144.5 KB)
+16/06/17 16:54:18 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 1880.0 B, free 146.3 KB)
+16/06/17 16:54:18 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 50.97.233.108:46767 (size: 1880.0 B, free: 511.1 MB)
+16/06/17 16:54:18 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1006
+16/06/17 16:54:18 INFO DAGScheduler: Submitting 2 missing tasks from ResultStage 0 (MapPartitionsRDD[2] at filter at SimpleApp.scala:12)
+16/06/17 16:54:18 INFO TaskSchedulerImpl: Adding task set 0.0 with 2 tasks
+16/06/17 16:54:20 INFO SparkDeploySchedulerBackend: Registered executor NettyRpcEndpointRef(null) (spark1.hw6.net:47257) with ID 0
+16/06/17 16:54:20 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, spark1.hw6.net, partition 0,PROCESS_LOCAL, 2202 bytes)
+16/06/17 16:54:20 INFO TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1, spark1.hw6.net, partition 1,PROCESS_LOCAL, 2202 bytes)
+16/06/17 16:54:20 INFO BlockManagerMasterEndpoint: Registering block manager spark1.hw6.net:51434 with 511.1 MB RAM, BlockManagerId(0, spark1.hw6.net, 51434)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on spark1.hw6.net:51434 (size: 1880.0 B, free: 511.1 MB)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on spark1.hw6.net:51434 (size: 13.9 KB, free: 511.1 MB)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added rdd_1_1 in memory on spark1.hw6.net:51434 (size: 4.7 KB, free: 511.1 MB)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added rdd_1_0 in memory on spark1.hw6.net:51434 (size: 5.4 KB, free: 511.1 MB)
+16/06/17 16:54:21 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 1335 ms on spark1.hw6.net (1/2)
+16/06/17 16:54:21 INFO TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 1332 ms on spark1.hw6.net (2/2)
+16/06/17 16:54:21 INFO DAGScheduler: ResultStage 0 (count at SimpleApp.scala:12) finished in 3.374 s
+16/06/17 16:54:21 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+16/06/17 16:54:21 INFO DAGScheduler: Job 0 finished: count at SimpleApp.scala:12, took 3.624506 s
+16/06/17 16:54:21 INFO SparkContext: Starting job: count at SimpleApp.scala:13
+16/06/17 16:54:21 INFO DAGScheduler: Got job 1 (count at SimpleApp.scala:13) with 2 output partitions
+16/06/17 16:54:21 INFO DAGScheduler: Final stage: ResultStage 1 (count at SimpleApp.scala:13)
+16/06/17 16:54:21 INFO DAGScheduler: Parents of final stage: List()
+16/06/17 16:54:21 INFO DAGScheduler: Missing parents: List()
+16/06/17 16:54:21 INFO DAGScheduler: Submitting ResultStage 1 (MapPartitionsRDD[3] at filter at SimpleApp.scala:13), which has no missing parents
+16/06/17 16:54:21 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 3.1 KB, free 149.4 KB)
+16/06/17 16:54:21 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 1882.0 B, free 151.3 KB)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 50.97.233.108:46767 (size: 1882.0 B, free: 511.1 MB)
+16/06/17 16:54:21 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1006
+16/06/17 16:54:21 INFO DAGScheduler: Submitting 2 missing tasks from ResultStage 1 (MapPartitionsRDD[3] at filter at SimpleApp.scala:13)
+16/06/17 16:54:21 INFO TaskSchedulerImpl: Adding task set 1.0 with 2 tasks
+16/06/17 16:54:21 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 2, spark1.hw6.net, partition 0,PROCESS_LOCAL, 2202 bytes)
+16/06/17 16:54:21 INFO TaskSetManager: Starting task 1.0 in stage 1.0 (TID 3, spark1.hw6.net, partition 1,PROCESS_LOCAL, 2202 bytes)
+16/06/17 16:54:21 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on spark1.hw6.net:51434 (size: 1882.0 B, free: 511.1 MB)
+16/06/17 16:54:22 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 2) in 86 ms on spark1.hw6.net (1/2)
+16/06/17 16:54:22 INFO TaskSetManager: Finished task 1.0 in stage 1.0 (TID 3) in 86 ms on spark1.hw6.net (2/2)
+16/06/17 16:54:22 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+16/06/17 16:54:22 INFO DAGScheduler: ResultStage 1 (count at SimpleApp.scala:13) finished in 0.089 s
+16/06/17 16:54:22 INFO DAGScheduler: Job 1 finished: count at SimpleApp.scala:13, took 0.102943 s
++++++++++++ Lines with a: 58, Lines with b: 26 ++++++++++
+16/06/17 16:54:22 INFO SparkContext: Invoking stop() from shutdown hook
+16/06/17 16:54:22 INFO SparkUI: Stopped Spark web UI at http://50.97.233.108:4040
+16/06/17 16:54:22 INFO SparkDeploySchedulerBackend: Shutting down all executors
+16/06/17 16:54:22 INFO SparkDeploySchedulerBackend: Asking each executor to shut down
+16/06/17 16:54:22 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+16/06/17 16:54:22 INFO MemoryStore: MemoryStore cleared
+16/06/17 16:54:22 INFO BlockManager: BlockManager stopped
+16/06/17 16:54:22 INFO BlockManagerMaster: BlockManagerMaster stopped
+16/06/17 16:54:22 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+16/06/17 16:54:22 INFO RemoteActorRefProvider$RemotingTerminator: Shutting down remote daemon.
+16/06/17 16:54:22 INFO RemoteActorRefProvider$RemotingTerminator: Remote daemon shut down; proceeding with flushing remote transports.
+16/06/17 16:54:22 INFO SparkContext: Successfully stopped SparkContext
+16/06/17 16:54:22 INFO ShutdownHookManager: Shutdown hook called
+16/06/17 16:54:22 INFO ShutdownHookManager: Deleting directory /tmp/spark-4ad985ca-8c26-4d0e-8761-1f202698f4f7
+16/06/17 16:54:22 INFO ShutdownHookManager: Deleting directory /tmp/spark-4ad985ca-8c26-4d0e-8761-1f202698f4f7/httpd-685e32e5-b9ad-40b6-89e6-4d1d282a726b
+
+
+
+
+
+derby.log
+
+Fri Jun 17 16:28:47 CDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0155-6044-2716-0000309832a0 
+on database directory /usr/local/spark/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@35bf6dba 
+Loaded from file:/usr/local/spark/lib/spark-assembly-1.6.1-hadoop2.6.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_91-b14
+user.dir=/usr/local/spark
+os.name=Linux
+os.arch=amd64
+os.version=3.10.0-327.10.1.el7.x86_64
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+(END)
