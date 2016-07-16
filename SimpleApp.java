@@ -8,7 +8,6 @@ import org.apache.spark.streaming.*;
 import twitter4j.*;
 import java.util.Arrays;
 import scala.Tuple2;
-
 public class SimpleApp {
   public static void main(String[] args) {
     String consumerKey = args[0];
@@ -40,12 +39,19 @@ public class SimpleApp {
     );
 
     
-	   JavaDStream<Tweet> hashTags = words.filter(
+	JavaDStream<Tweet> hashTags = words.filter(
      		new Function<String, Boolean>() {
        			public Boolean call(String word) { return word.startsWith("#"); }
      		}
    	).map(new Function<String,Tweet>(){
-	public Tweet call(String s){return (Tweet.createTweet(s));}});
+	public Tweet call(String s)
+		{
+			Tweet tw = new Tweet();
+			tw.createTweet(s);
+			return tw;
+		}
+	}
+	);
 
 	
 	JavaPairDStream<String, Integer> tuples = hashTags.mapToPair(
@@ -96,13 +102,4 @@ sortedCounts.print();
     sc.awaitTermination();
    }
 
-private class Tweet{
-	public String hashTag;
-	public static Tweet createTweet(String ht){
-	new Tweet(ht);	
-}	
-	private Tweet(String s){
-	hasTag =s;
-	}
-}
 }
