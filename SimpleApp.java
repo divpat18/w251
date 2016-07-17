@@ -9,7 +9,8 @@ import twitter4j.*;
 import java.util.Arrays;
 import scala.Tuple2;
 import java.util.*;
-
+import org.apache.spark.Logging;
+//import org.apache.log4j.*;
 
 public class SimpleApp {
  public static void main(String[] args) {
@@ -99,8 +100,19 @@ public class SimpleApp {
    new Duration(10 * 1000)
   );
 
-reducedTagCount.print();
+   JavaPairDStream <String,Tuple2<Tweet,Integer>> combinedCntTweet = reducedTagTweetPair.join(reducedTagCount); 
 
+
+	JavaPairDStream<Integer,Tweet> pairByCount = combinedCntTweet.mapToPair(
+		new PairFunction<Tuple2<Tweet,Integer>,Integer,Tweet>(){
+			public Tuple2<Integer,Tweet> call(Tuple2<Tweet,Integer> in){
+				return in.swap();
+			}
+		}
+	);
+
+
+pairByCount.print();
 	sc.start();
 	sc.awaitTermination();
 }
