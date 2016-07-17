@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Tweet implements Serializable{
+public class Tweet implements Serializable {
  public String hashTag;
  public String author;
  public List < String > mentions;
@@ -21,7 +21,7 @@ public class Tweet implements Serializable{
 
 
  public void setAuthor(String auth) {
-  this.author= auth;
+  this.author = auth;
  }
 
  public List < String > getMentions() {
