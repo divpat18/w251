@@ -30,12 +30,15 @@ public class SimpleApp {
 
   JavaReceiverInputDStream < Status > stream = TwitterUtils.createStream(sc);
 
+  //Extract Java Object from tweets. Contains Text and User
   JavaDStream < RawTweet > rawTweets = stream.map(new Function < Status, RawTweet > () {
    public RawTweet call(Status status) {
     RawTweet rt = new RawTweet(status.getUser().getScreenName(), status.getText());
     return rt;
    }
   });
+
+  //Break the text down into hashtags and mentions
   JavaDStream < Tweet > tweets = rawTweets.flatMap(
    new FlatMapFunction < RawTweet, Tweet > () {
     public Iterable < Tweet > call(RawTweet rt) {
@@ -60,7 +63,7 @@ public class SimpleApp {
     }
    }
   );
-
+  //Convert into a pair of hashTag and Tweet object
   JavaPairDStream < String, Tweet > tagTweetPair = tweets.mapToPair(
    new PairFunction < Tweet, String, Tweet > () {
     public Tuple2 < String, Tweet > call(Tweet t) {
@@ -68,7 +71,7 @@ public class SimpleApp {
     }
    }
   );
-
+  //Reduce by hashTag and combine Tweet object
   JavaPairDStream < String, Tweet > reducedTagTweetPair = tagTweetPair.reduceByKeyAndWindow(
    new Function2 < Tweet, Tweet, Tweet > () {
     public Tweet call(Tweet t1, Tweet t2) {
@@ -81,6 +84,7 @@ public class SimpleApp {
    new Duration(10 * 12 * 1000)
   );
 
+  //Convert Hashtags into pairs
   JavaPairDStream < String, Integer > tagCount = tweets.mapToPair(
    new PairFunction < Tweet, String, Integer > () {
     public Tuple2 < String, Integer > call(Tweet tw) {
@@ -88,7 +92,7 @@ public class SimpleApp {
     }
    }
   );
-
+  //Count Instances of Hashtags
   JavaPairDStream < String, Integer > reducedTagCount = tagCount.reduceByKeyAndWindow(
    new Function2 < Integer, Integer, Integer > () {
     public Integer call(Integer i1, Integer i2) {
@@ -98,7 +102,7 @@ public class SimpleApp {
    new Duration(10 * 12 * 1000)
 
   );
-
+  //  Combine the count and Tweet Object
   JavaPairDStream < String, Tuple2 < Tweet, Integer >> combinedCntTweet = reducedTagTweetPair.join(reducedTagCount);
 
   JavaPairDStream < Integer, Tweet > pairByCount = combinedCntTweet.mapToPair(
@@ -108,7 +112,7 @@ public class SimpleApp {
     }
    }
   );
-
+  //Sort by Counts
   JavaPairDStream < Integer, Tweet > sortedCounts = pairByCount.transformToPair(
    new Function < JavaPairRDD < Integer, Tweet > , JavaPairRDD < Integer, Tweet >> () {
     public JavaPairRDD < Integer, Tweet > call(JavaPairRDD < Integer, Tweet > in ) throws Exception {
@@ -116,7 +120,7 @@ public class SimpleApp {
     }
    });
 
-
+  //Print top n tweets
   sortedCounts.foreach(
    new Function < JavaPairRDD < Integer, Tweet > , Void > () {
     public Void call(JavaPairRDD < Integer, Tweet > rdd) {
@@ -130,7 +134,7 @@ public class SimpleApp {
    }
   );
 
-  //30 min interval
+  //Repeat for 30 min interval
   JavaPairDStream < String, Tweet > reducedTagTweetPair30 = tagTweetPair.reduceByKeyAndWindow(
    new Function2 < Tweet, Tweet, Tweet > () {
     public Tweet call(Tweet t1, Tweet t2) {
