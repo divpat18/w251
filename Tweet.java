@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Tweet {
  public String hashTag;
  public String author;
@@ -7,7 +9,7 @@ public class Tweet {
 
  public Tweet(String ht, String auth, List < String > mnt) {
   this.hashTag = ht;
-  this.authors = author;
+  this.author = author;
   this.mentions = mnt;
 
  }
@@ -18,12 +20,14 @@ public class Tweet {
 
 
  public void setAuthor(String auth) {
-  this.authors.add(auth);
+  this.author= auth;
  }
 
  public List < String > getMentions() {
   return mentions;
  }
+
+}
 
 
 
