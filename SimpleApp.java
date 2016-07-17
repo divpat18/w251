@@ -1,34 +1,4 @@
-/* SimpleApp.java */
-import org.apache.spark.api.java.*;
-import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.function.*;
-import org.apache.spark.streaming.twitter.TwitterUtils;
-import org.apache.spark.streaming.api.java.*;
-import org.apache.spark.streaming.*;
-import twitter4j.*;
-import java.util.Arrays;
-import scala.Tuple2;
-import java.util.*;
-import org.apache.spark.Logging;
-//import org.apache.log4j.*;
 
-public class SimpleApp {
- public static void main(String[] args) {
-  String consumerKey = args[0];
-  String consumerSecret = args[1];
-  String accessToken = args[2];
-  String accessTokenSecret = args[3];
-
-
-  System.setProperty("twitter4j.oauth.consumerKey", consumerKey);
-  System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret);
-  System.setProperty("twitter4j.oauth.accessToken", accessToken);
-  System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret);
-
-  SparkConf conf = new SparkConf().setAppName("Simple Application");
-  JavaStreamingContext sc = new JavaStreamingContext(new JavaSparkContext(conf), Durations.seconds(10));
-
-  JavaReceiverInputDStream < Status > stream = TwitterUtils.createStream(sc);
 /* SimpleApp.java */
 import org.apache.spark.api.java.*;
 import org.apache.spark.SparkConf;
