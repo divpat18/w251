@@ -10,7 +10,6 @@ import java.util.Arrays;
 import scala.Tuple2;
 import java.util.*;
 import org.apache.spark.Logging;
-//import org.apache.log4j.*;
 
 public class SimpleApp {
  public static void main(String[] args) {
@@ -61,7 +60,6 @@ public class SimpleApp {
     }
    }
   );
-  tweets.print();
 
   JavaPairDStream < String, Tweet > tagTweetPair = tweets.mapToPair(
    new PairFunction < Tweet, String, Tweet > () {
@@ -83,7 +81,6 @@ public class SimpleApp {
    new Duration(60 * 5 * 1000),
    new Duration(10 * 1000)
   );
-  //reducedTagTweetPair.print();
 
   JavaPairDStream < String, Integer > tagCount = tweets.mapToPair(
    new PairFunction < Tweet, String, Integer > () {
