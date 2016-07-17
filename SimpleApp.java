@@ -8,6 +8,9 @@ import org.apache.spark.streaming.*;
 import twitter4j.*;
 import java.util.Arrays;
 import scala.Tuple2;
+import java.util.*;
+
+
 public class SimpleApp {
  public static void main(String[] args) {
   String consumerKey = args[0];
@@ -28,7 +31,7 @@ public class SimpleApp {
 
   JavaDStream < RawTweet > rawTweets = stream.map(new Function < Status, RawTweet > () {
    public RawTweet call(Status status) {
-    RawTweet rt = new RawTweet(status.getUser.getScreenname(), status.getText);
+    RawTweet rt = new RawTweet(status.getUser().getScreenName(), status.getText());
     return rt;
    }
   });
@@ -51,7 +54,7 @@ public class SimpleApp {
      for (String tag: tags) {
       tw.add(new Tweet(tag, rt.user, mention));
      }
-     return rt;
+     return tw;
     }
    }
   );
@@ -59,7 +62,7 @@ public class SimpleApp {
   JavaPairDStream < String, Tweet > tagTweetPair = tweets.mapToPair(
    new PairFunction < Tweet, String, Tweet > () {
     public Tuple2 < String, Tweet > call(Tweet t ) {
-     return new Tuple2 < String, Integer > ( t.hashTag, t);
+     return new Tuple2 < String, Tweet > ( t.hashTag, t);
     }
    }
   );
@@ -68,8 +71,8 @@ public class SimpleApp {
    new Function2 < Tweet, Tweet, Tweet > () {
     public Tweet call(Tweet t1, Tweet t2) {
     String combinedAuth = t1.author+","+t2.author;
-    List<String> combinedMentions = t1.getMentions.addAll(t2.getMentions);
-    Tweet result = new Tweet(t1.hashTag,combinedAuth,combinedMentions);
+    t1.getMentions().addAll(t2.getMentions());
+    Tweet result = new Tweet(t1.hashTag,combinedAuth,t1.getMentions());
     return result;
     }
    },
@@ -97,3 +100,8 @@ public class SimpleApp {
   );
 
 reducedTagCount.print();
+
+	sc.start();
+	sc.awaitTermination();
+}
+}
