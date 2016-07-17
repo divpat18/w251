@@ -78,8 +78,7 @@ public class SimpleApp {
      return result;
     }
    },
-   new Duration(60 * 5 * 1000),
-   new Duration(10 * 1000)
+   new Duration(10 * 12 * 1000)
   );
 
   JavaPairDStream < String, Integer > tagCount = tweets.mapToPair(
@@ -96,9 +95,8 @@ public class SimpleApp {
      return i1 + i2;
     }
    },
-   new Duration(10 * 5 * 1000)
-   /*,
-      new Duration(10 * 1000)*/
+   new Duration(10 * 12 * 1000)
+
   );
 
   JavaPairDStream < String, Tuple2 < Tweet, Integer >> combinedCntTweet = reducedTagTweetPair.join(reducedTagCount);
@@ -122,7 +120,62 @@ public class SimpleApp {
   sortedCounts.foreach(
    new Function < JavaPairRDD < Integer, Tweet > , Void > () {
     public Void call(JavaPairRDD < Integer, Tweet > rdd) {
-     String out = "\nTop " + numberOfTweetsToPrint + " hashtags:\n";
+     String out = "\nTop " + numberOfTweetsToPrint + " hashtags at 2 min intervals:\n";
+     for (Tuple2 < Integer, Tweet > t: rdd.take(numberOfTweetsToPrint)) {
+      out = out + t.toString() + "\n";
+     }
+     System.out.println(out);
+     return null;
+    }
+   }
+  );
+
+  //30 min interval
+  JavaPairDStream < String, Tweet > reducedTagTweetPair30 = tagTweetPair.reduceByKeyAndWindow(
+   new Function2 < Tweet, Tweet, Tweet > () {
+    public Tweet call(Tweet t1, Tweet t2) {
+     String combinedAuth = t1.author + "," + t2.author;
+     t1.getMentions().addAll(t2.getMentions());
+     Tweet result = new Tweet(t1.hashTag, combinedAuth, t1.getMentions());
+     return result;
+    }
+   },
+   new Duration(60 * 30 * 1000)
+  );
+
+
+  JavaPairDStream < String, Integer > reducedTagCount30 = tagCount.reduceByKeyAndWindow(
+   new Function2 < Integer, Integer, Integer > () {
+    public Integer call(Integer i1, Integer i2) {
+     return i1 + i2;
+    }
+   },
+   new Duration(60 * 30 * 1000)
+
+  );
+
+  JavaPairDStream < String, Tuple2 < Tweet, Integer >> combinedCntTweet30 = reducedTagTweetPair30.join(reducedTagCount);
+
+  JavaPairDStream < Integer, Tweet > pairByCount30 = combinedCntTweet30.mapToPair(
+   new PairFunction < Tuple2 < String, Tuple2 < Tweet, Integer >> , Integer, Tweet > () {
+    public Tuple2 < Integer, Tweet > call(Tuple2 < String, Tuple2 < Tweet, Integer >> in ) {
+     return in._2.swap();
+    }
+   }
+  );
+
+  JavaPairDStream < Integer, Tweet > sortedCounts30 = pairByCount30.transformToPair(
+   new Function < JavaPairRDD < Integer, Tweet > , JavaPairRDD < Integer, Tweet >> () {
+    public JavaPairRDD < Integer, Tweet > call(JavaPairRDD < Integer, Tweet > in ) throws Exception {
+     return in.sortByKey(false);
+    }
+   });
+
+
+  sortedCounts.foreach(
+   new Function < JavaPairRDD < Integer, Tweet > , Void > () {
+    public Void call(JavaPairRDD < Integer, Tweet > rdd) {
+     String out = "\nTop " + numberOfTweetsToPrint + " hashtags at 30 min intervals:\n";
      for (Tuple2 < Integer, Tweet > t: rdd.take(numberOfTweetsToPrint)) {
       out = out + t.toString() + "\n";
      }
