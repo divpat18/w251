@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.*;
 
-public class Tweet {
+public class Tweet implements Serializable{
  public String hashTag;
  public String author;
  public List < String > mentions;
@@ -26,13 +27,5 @@ public class Tweet {
  public List < String > getMentions() {
   return mentions;
  }
-
-}
-
-
-
-
-
-
 
 }
