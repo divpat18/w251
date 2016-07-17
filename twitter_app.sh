@@ -1,0 +1,1 @@
+sbt assembly && $SPARK_HOME/bin/spark-submit   --master spark://spark1:7077 $(find target -iname "*assembly*.jar") WZPDtmOILusm8w3vSjdxTIHZ5 JnuZokGOgOXXCqVM2rByZgAzvEEmx6FSPVJrg20gqbHOBSzzSM  210138770-nQwWSPzQl3M4nhCLA02SnrFnDrcLlZGFz9oMaui5 wHmRePNtDVnrqnIDHN13Br3dJHqJxrUFUgzQ5wnCHojSn $1
